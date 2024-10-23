@@ -1,0 +1,44 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Lombok (if using Lombok)
+lombok.config
+
+# Test results
+test-output/
+
+# Spring Boot properties
+*.properties
+*.yml
+
+# Optional - Exclude IDE-specific and editor-specific files
+.vscode/
+*.swp
+
+# Exclude sensitive configuration files
+application.yml
+application.properties
