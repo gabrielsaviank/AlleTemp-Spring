@@ -3,13 +3,15 @@ package com.allesys.demo.controller;
 import com.allesys.demo.entity.Temperature;
 import com.allesys.demo.service.TemperatureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping("/temperature")
 public class TemperatureController {
     private final TemperatureService temperatureService;
 
@@ -29,8 +31,9 @@ public class TemperatureController {
     }
 
     @PostMapping
-    public Temperature createTemperature(@RequestBody Temperature temperature) {
-        return temperatureService.createTemperature(temperature);
+    public ResponseEntity<Temperature> createMeasure(@RequestParam Double measure) {
+        Temperature temperature = temperatureService.createMeasure(measure);
+        return ResponseEntity.status(HttpStatus.CREATED).body(temperature);
     }
 
     @PutMapping("/{id}")

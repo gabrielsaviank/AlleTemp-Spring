@@ -9,5 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface DayRepository extends MongoRepository<Day, String> {
+    Optional<Day> findFirstByOrderByCreatedDesc();
+
     Optional<Day> findByCreated(Date created);
 }

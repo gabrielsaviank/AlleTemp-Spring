@@ -5,8 +5,6 @@ import com.allesys.demo.repository.DayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +26,11 @@ public class DayService {
         return dayRepository.findById(id);
     }
 
-    public Optional<Day> getCurrentDay(Date day) {
+    public Optional<Day> getCurrentDayMeasures() {
+        return dayRepository.findFirstByOrderByCreatedDesc();
+    }
+
+    public Optional<Day> getDayByDate(Date day) {
         return dayRepository.findByCreated(day);
     }
 

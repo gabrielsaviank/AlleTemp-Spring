@@ -15,7 +15,7 @@ public class Temperature {
     @DBRef
     private Day day;
 
-    private String measure;
+    private Double measure;
 
     private Date time;
 
@@ -23,7 +23,7 @@ public class Temperature {
         this.time = new Date();
     }
 
-    public Temperature(Double value, Day day, String measure) {
+    public Temperature(Double value, Day day, Double measure) {
         this.day = day;
         this.measure = measure;
         this.time = new Date();
@@ -45,11 +45,11 @@ public class Temperature {
         this.day = day;
     }
 
-    public String getMeasure() {
+    public Double getMeasure() {
         return measure;
     }
 
-    public void setMeasure(String measure) {
+    public void setMeasure(Double measure) {
         this.measure = measure;
     }
 
