@@ -1,20 +1,24 @@
 package com.allesys.demo.entity;
 
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Document(collection = "day")
 public class Day {
+    @Getter
     @Id
     private String id;
     private Date created;
 
+    @Getter
     @DBRef
-    private List<Temperature> temperatures;
+    private List<Temperature> temperatures = new ArrayList<>();
 
     public Day() {
         this.created = new Date();
@@ -25,24 +29,16 @@ public class Day {
         this.temperatures = temperatures;
     }
 
-    public String getId() {
-        return id;
+    public Date getCreated() {
+        return created;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
     public void setCreated(Date created) {
         this.created = created;
-    }
-
-    public List<Temperature> getTemperatures() {
-        return temperatures;
     }
 
     public void setTemperatures(List<Temperature> temperatures) {
