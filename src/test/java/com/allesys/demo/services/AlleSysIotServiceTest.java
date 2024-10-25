@@ -28,41 +28,31 @@ class AlleSysIotServiceTest {
 
     @Test
     void testMqttConnectionSuccessful() throws MqttException {
-        // Arrange
         System.out.println("IM HERE");
         doNothing().when(mqttClient).connect();
         doNothing().when(mqttClient).subscribe(anyString());
 
-        // Act
-        alleSysIotService = new AlleSysIotService(); // Assuming it tries to connect in the constructor
+        alleSysIotService = new AlleSysIotService();
 
-        // Assert
         verify(mqttClient, times(1)).connect();
         verify(mqttClient, times(1)).subscribe(anyString());
     }
 
     @Test
     void testMessageArrived() throws Exception {
-        // Arrange
         MqttMessage mockMessage = new MqttMessage("test payload".getBytes());
         String testTopic = "test/topic";
 
-        // Act
         alleSysIotService.messageArrived(testTopic, mockMessage);
 
-        // Assert
         assertEquals("test payload", new String(mockMessage.getPayload()));
     }
 
     @Test
     void testConnectionLost() {
-        // Arrange
         Throwable mockCause = new Throwable("Connection lost");
 
-        // Act
         alleSysIotService.connectionLost(mockCause);
 
-        // Assert
-        // No exceptions should be thrown, we can assert for log output if necessary
     }
 }
