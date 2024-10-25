@@ -11,25 +11,26 @@ import org.springframework.stereotype.Service;
 public class AlleSysIotService implements MqttCallback {
     private MqttClient client;
 
-    private AlleSysIotService(MqttClient client) {
-        this.client = client;
-        initialiseMqtt();
-    }
-
-    private void initialiseMqtt() {
-        String topic = "dumb topic";
+    public AlleSysIotService() {
+        String broker = "tcp://91.121.93.94:1883";
+        String clientId = "AlleSysClient";
 
         try {
+            client = new MqttClient(broker, clientId);
             client.setCallback(this);
             client.connect();
             System.out.println("AlleSys Connected to the MQTT!");
+
+            String topic = "dumb topic";
             client.subscribe(topic);
-            System.out.println("Subscribed to the topic " + topic);
+
+            System.out.println("Subscribed to the topic" + topic);
 
         } catch (MqttException exception) {
             exception.printStackTrace();
             System.out.println("Failed to connect to the MQTT!");
         }
+
     }
 
     @Override
