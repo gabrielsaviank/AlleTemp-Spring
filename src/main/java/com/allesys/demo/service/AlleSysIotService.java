@@ -12,7 +12,8 @@ public class AlleSysIotService implements MqttCallback {
     private MqttClient client;
 
     public AlleSysIotService() {
-        String broker = "tcp://91.121.93.94:1883";
+//        String broker = "tcp://192.168.0.6:1883";
+        String broker = "tcp://localhost:1883";
         String clientId = "AlleSysClient";
 
         try {
@@ -21,7 +22,7 @@ public class AlleSysIotService implements MqttCallback {
             client.connect();
             System.out.println("AlleSys Connected to the MQTT!");
 
-            String topic = "dumb topic";
+            String topic = "currentTemperature";
             client.subscribe(topic);
 
             System.out.println("Subscribed to the topic" + topic);

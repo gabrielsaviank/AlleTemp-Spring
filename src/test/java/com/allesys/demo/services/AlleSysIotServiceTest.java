@@ -24,6 +24,7 @@ class AlleSysIotServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        alleSysIotService = new AlleSysIotService(mqttClient);
     }
 
     @Test
