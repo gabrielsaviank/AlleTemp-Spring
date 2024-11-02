@@ -4,20 +4,11 @@ FROM amazoncorretto:17-alpine
 # Set the working directory
 WORKDIR /app
 
-# Copy the Maven build file
-COPY pom.xml .
+# Copy the built JAR file into the container
+COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
 
-# Copy the source code
-COPY src ./src
+# Expose ports for the application and remote debugging
+EXPOSE 8080 5005
 
-# Install Maven
-RUN apk add --no-cache maven
-
-# Build the application
-RUN mvn clean package
-
-# Expose the application port
-EXPOSE 8080
-
-# Run the application
-CMD ["java", "-jar", "target/demo-0.0.1-SNAPSHOT.jar"]
+# Run the application with remote debugging options
+ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "app.jar"]

@@ -11,7 +11,7 @@ to predict the temperatures.
 ### Stack
 * Springboot
 * Java 23 (Was supposed to use 17, but I accidentally installed the wrong version) 
-* Mongo (Cloud, later will be changed
+* Mongo (Cloud, later will be changed)
 * Junit
 * Mockito
 * TensorFlow
@@ -21,6 +21,7 @@ to predict the temperatures.
 
 * Java 23 Corretto
 * Maven
+* Mongo community (Migrating from the cloud...)
 
 ### Setup 
 * Create a file called _application.properties_ in the _src/main/resources_
@@ -28,11 +29,38 @@ to predict the temperatures.
 
 _spring.application.name_ 
 
- => _server.port_ 
+=> _server.port_ 
 
 => _spring.data.mongodb.uri_
 
 => _spring.data.mongodb.database_
+
+### Two ways of Compiling 
+
+#### Docker Approach Mac ARM (M1, M2, M3, M4):
+        * brew install docker 
+        * brew install colima (because you're not a wanker to use GUI)
+        * docker build -t alletemp .
+        * docker run -p 8080:8080 -p 5005:5005 alletemp
+Make sure you have 5005:5005 otherwise debugging will not work
+Configuring the Debugger in IntelliJ
+
+            * Open IntelliJ
+            * Go to Run
+            * Edit configurations
+            * Select Remote JVM Debug
+            * Save
+            * Add Breakpoints and test
+
+
+#### Manual Approach
+        * mvn clean install
+        * java -jar target/demo-0.0.1-SNAPSHOT.jar
+        * Or use IntelliJ
+        * Edit configurations
+        * Select springboot
+        * Save (must confirm further steps)
+        
 
 ## !!!!Important!!!!
 
