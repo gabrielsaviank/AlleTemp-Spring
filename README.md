@@ -40,6 +40,7 @@ _spring.application.name_
 #### Docker Approach Mac ARM (M1, M2, M3, M4):
         * brew install docker 
         * brew install colima (because you're not a wanker to use GUI)
+        * docker-compose up --build (This will create the Mongo Image)
         * docker build -t alletemp .
         * docker run -p 8080:8080 -p 5005:5005 alletemp
 Make sure you have 5005:5005 otherwise debugging will not work
