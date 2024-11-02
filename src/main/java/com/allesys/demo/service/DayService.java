@@ -38,11 +38,11 @@ public class DayService {
         return dayRepository.save(day);
     }
 
-    public void deleteDay(String id) {
-        dayRepository.deleteById(id);
-    }
-
     public Day updateDay(Day day) {
         return dayRepository.save(day);
+    }
+
+    public void deleteDay(String id) {
+        dayRepository.deleteById(id);
     }
 }
