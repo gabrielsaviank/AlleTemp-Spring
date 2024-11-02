@@ -40,7 +40,8 @@ _spring.application.name_
 #### Docker Approach Mac ARM (M1, M2, M3, M4):
         * brew install docker 
         * brew install colima (because you're not a wanker to use GUI)
-        * docker-compose up --build (This will create the Mongo Image)
+        * docker-compose up --build (This will create the Mongo Image) or
+        * mvn clean package (to make sure youre using the last build)
         * docker build -t alletemp .
         * docker run -p 8080:8080 -p 5005:5005 alletemp
 Make sure you have 5005:5005 otherwise debugging will not work
@@ -53,7 +54,6 @@ Configuring the Debugger in IntelliJ
             * Save
             * Add Breakpoints and test
 
-
 #### Manual Approach
         * mvn clean install
         * java -jar target/demo-0.0.1-SNAPSHOT.jar
@@ -61,7 +61,14 @@ Configuring the Debugger in IntelliJ
         * Edit configurations
         * Select springboot
         * Save (must confirm further steps)
+
+#### Connecting to NoSql Booster
+After you ran the commands above it is important to connect to NoSql Booster to visualise the Collections
         
+        * Open No SQL Booster
+        * Connect to localhost:27018 (if youre using docker)
+        * If you followed the Manual approach connect to the default mongodb port 27017
+        * If you have more instances connected to the one that you set up
 
 ## !!!!Important!!!!
 
