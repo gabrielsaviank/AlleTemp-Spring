@@ -8,22 +8,19 @@ import java.util.Date;
 
 @Document(collection = "temperature")
 public class Temperature {
-
     @Id
     private String id;
 
     @DBRef
     private Day day;
-
     private Double measure;
-
     private Date time;
 
     public Temperature() {
         this.time = new Date();
     }
 
-    public Temperature(Double value, Day day, Double measure) {
+    public Temperature(Day day, Double measure) {
         this.day = day;
         this.measure = measure;
         this.time = new Date();

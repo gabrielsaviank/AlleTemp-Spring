@@ -55,10 +55,6 @@ public class TemperatureService {
         return temperatureRepository.findById(temperatureId);
     }
 
-    public Temperature createTemperature(Temperature temperature){
-        return temperatureRepository.save(temperature);
-    }
-
     public void deleteTemperature(String temperatureId){
         temperatureRepository.deleteById(temperatureId);
     }

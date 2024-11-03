@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: local-mongo
+    ports:
+      - "27018:27017" # Ensure this maps the container's port 27017 to 27018 on the host
+    volumes:
+      - "mongo-data:/data/db"
+
+  spring-boot-app:
+    build:
+      context: . # Path to your Spring Boot Dockerfile
+    container_name: spring-boot-app
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/mydatabase # Use the service name 'mongodb' as the host
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:

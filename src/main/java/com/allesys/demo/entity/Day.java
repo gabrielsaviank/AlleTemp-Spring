@@ -10,13 +10,11 @@ import java.util.List;
 
 @Document(collection = "day")
 public class Day {
-
     @Id
     private String id;
-    private Date created;
-
     @DBRef
-    private List<Temperature> temperatures = new ArrayList<>();
+    private List<Temperature> temperatures;
+    private Date created;
 
     public Day() {
         this.created = new Date();
