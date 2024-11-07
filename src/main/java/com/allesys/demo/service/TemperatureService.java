@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -61,5 +62,19 @@ public class TemperatureService {
 
     public Temperature updateTemperature(String temperatureId, Temperature temperature){
         return temperatureRepository.save(temperature);
+    }
+
+    // This is used for the Machine Learning
+    public List<Double> getLastDayTemperatures() {
+        Date oneDayAgo = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
+
+        List<Temperature> recentTemperatures = temperatureRepository.findByTimeAfterOrderByTimeDesc(oneDayAgo);
+
+        List<Double> result = new ArrayList<>();
+        for (Temperature temp : recentTemperatures) {
+            result.add(temp.getMeasure());
+        }
+
+        return result;
     }
 }

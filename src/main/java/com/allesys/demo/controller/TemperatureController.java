@@ -30,6 +30,11 @@ public class TemperatureController {
         return temperatureService.getTemperatureById(id);
     }
 
+    @GetMapping("/lastDayTemps")
+    public List<Double> getLastDayTemperatures() {
+        return temperatureService.getLastDayTemperatures();
+    }
+
     @PostMapping
     public ResponseEntity<Temperature> createMeasure(@RequestParam Double measure) {
         Temperature temperature = temperatureService.createMeasure(measure);
