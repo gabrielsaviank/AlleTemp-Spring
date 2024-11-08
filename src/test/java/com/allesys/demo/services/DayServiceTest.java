@@ -11,13 +11,13 @@ import org.mockito.MockitoAnnotations;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class DayServiceTest {
     @Mock
@@ -29,6 +29,29 @@ public class DayServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void getAllDays() {
+        Day dayOne = new Day();
+        dayOne.setId("121416");
+        dayOne.setCreated(new Date());
+
+        Day dayTwo = new Day();
+        dayTwo.setId("121417");
+        dayTwo.setCreated(new Date());
+
+        when(dayRepository.findAll())
+                .thenReturn(Arrays.asList(dayOne, dayTwo));
+
+        List<Day> result = dayService.getAllDays();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("121416", result.get(0).getId());
+        assertEquals("121417", result.get(1).getId());
+
+        verify(dayRepository, times(1)).findAll();
     }
 
     @Test
@@ -47,6 +70,24 @@ public class DayServiceTest {
     }
 
     @Test
+    void getCurrentDayMeasures() {
+        Day currentDay = new Day();
+        currentDay.setId("121416");
+        currentDay.setCreated(new Date());
+
+        when(dayRepository.findFirstByOrderByCreatedDesc())
+                .thenReturn(Optional.of(currentDay));
+
+        Optional<Day> result = dayService.getCurrentDayMeasures();
+
+        assertTrue(result.isPresent());
+        assertEquals("121416", result.get().getId());
+        assertNotNull(result.get().getCreated());
+
+        verify(dayRepository, times(1)).findFirstByOrderByCreatedDesc();
+    }
+
+    @Test
     void geDayByDate() throws Exception {
         Day day = new Day();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
@@ -62,5 +103,23 @@ public class DayServiceTest {
 
         assertTrue(result.isPresent());
         assertEquals(date, result.get().getCreated());
+    }
+
+
+    @Test
+    void createDay() {
+        Day newDay = new Day();
+        newDay.setId("1");
+        newDay.setCreated(new Date());
+
+        when(dayRepository.save(any(Day.class))).thenReturn(newDay);
+
+        Day result = dayService.createDay(newDay);
+
+        assertNotNull(result);
+        assertEquals("1", result.getId());
+        assertNotNull(result.getCreated());
+
+        verify(dayRepository, times(1)).save(newDay);
     }
 }

@@ -11,6 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -59,5 +62,28 @@ public class TemperatureServiceTest {
         assertNotNull(createdTemperature);
         verify(temperatureRepository, times(1)).save(any(Temperature.class));
         verify(dayRepository, times(1)).save(any(Day.class));
+    }
+
+    @Test
+    void getLastDayTemperatures() {
+        Temperature tempOne = new Temperature();
+        tempOne.setMeasure(20.5);
+        tempOne.setTime(new Date(System.currentTimeMillis() - 2 * 60 * 60 * 1000)); // 2 hours ago
+
+        Temperature tempTwo = new Temperature();
+        tempTwo.setMeasure(21.5);
+        tempTwo.setTime(new Date(System.currentTimeMillis() - 3 * 60 * 60 * 1000)); // 3 hours ago
+
+        when(temperatureRepository.findByTimeAfterOrderByTimeDesc(any(Date.class)))
+                .thenReturn(Arrays.asList(tempOne, tempTwo));
+
+        List<Double> result = temperatureService.getLastDayTemperatures();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(20.5, result.get(0));
+        assertEquals(21.5, result.get(1));
+
+        verify(temperatureRepository, times(1)).findByTimeAfterOrderByTimeDesc(any(Date.class));
     }
 }
