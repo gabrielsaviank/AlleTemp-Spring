@@ -3,22 +3,19 @@ package com.allesys.demo.service;
 import org.springframework.stereotype.Service;
 import org.tensorflow.*;
 import org.tensorflow.framework.optimizers.GradientDescent;
-import org.tensorflow.ndarray.NdArrays;
 import org.tensorflow.ndarray.Shape;
 import org.tensorflow.op.Op;
 import org.tensorflow.op.Ops;
 import org.tensorflow.op.core.Placeholder;
 import org.tensorflow.op.core.Variable;
 import org.tensorflow.types.TFloat32;
-//import org.tensorflow.framework.optimizers.GradientDescentOptimizer;
 
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class TensorTemperatureModelService {
-    TemperatureService temperatureService;
+    public TemperatureService temperatureService;
 
     public static final int EPOCHS = 100;
     public static final float LEARNING_RATE = 0.01f;
