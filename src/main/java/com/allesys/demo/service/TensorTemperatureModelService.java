@@ -14,7 +14,7 @@ import org.tensorflow.types.TFloat32;
 public class TensorTemperatureModelService {
     public float predictNextDayAverage(float[] lastDayTemps) {
         if (lastDayTemps == null || lastDayTemps.length == 0) {
-            lastDayTemps = new float[]{20.2f, 23.3f, 22.1f, 21.8f};
+            throw new IllegalArgumentException("Temperature array cannot be null or empty");
         }
 
         try (Graph graph = new Graph();
@@ -43,13 +43,11 @@ public class TensorTemperatureModelService {
                 }
             });
 
-
             Tensor resultTensor = session.runner()
                     .feed(tempsInput.asOutput(), inputTensor)
                     .fetch(average)
                     .run()
                     .get(0);
-
 
             float result = ((TFloat32) resultTensor).getFloat();
 
