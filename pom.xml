@@ -66,20 +66,12 @@
 			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
 			<version>1.2.5</version>
 		</dependency>
-
-<!--		&lt;!&ndash; TensorFlow Core Platform &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.tensorflow</groupId>-->
-<!--			<artifactId>tensorflow-core-platform</artifactId>-->
-<!--			<version>0.5.0</version>-->
-<!--		</dependency>-->
-
-<!--		&lt;!&ndash; TensorFlow Framework &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.tensorflow</groupId>-->
-<!--			<artifactId>tensorflow-framework</artifactId>-->
-<!--			<version>0.5.0</version>-->
-<!--		</dependency>-->
+		<!-- TensorFlow Core Platform -->
+		<dependency>
+			<groupId>org.tensorflow</groupId>
+			<artifactId>tensorflow-core-api</artifactId>
+			<version>0.4.0</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
