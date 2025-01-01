@@ -38,12 +38,14 @@ public class TemperatureController {
     @PostMapping
     public ResponseEntity<Temperature> createMeasure(@RequestParam Double measure) {
         Temperature temperature = temperatureService.createMeasure(measure);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(temperature);
     }
 
     @PutMapping("/{id}")
     public Temperature updateTemperature(@PathVariable String id, @RequestBody Temperature temperature) {
         temperature.setId(id);
+
         return temperatureService.updateTemperature(id, temperature);
     }
 
