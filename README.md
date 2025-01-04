@@ -40,9 +40,8 @@ _spring.application.name_
 #### Docker Approach Mac ARM (M1, M2, M3, M4):
         * brew install docker 
         * brew install colima (because you're not a wanker to use GUI)
-        * docker-compose up --build (This will create the Mongo Image) or
-        * mvn clean package (to make sure youre using the last build)
-        * docker build -t alletemp .
+        * docker-compose up --build (This will create the Mongo Image and test container) or
+        * docker build -t alletemp . (for the api only)
         * docker run -p 8080:8080 -p 5005:5005 alletemp
 Make sure you have 5005:5005 otherwise debugging will not work
 Configuring the Debugger in IntelliJ
@@ -54,7 +53,17 @@ Configuring the Debugger in IntelliJ
             * Save
             * Add Breakpoints and test
 
-#### Manual Approach
+#### Running tests
+
+Tests were moved to docker, so we have a container that is focused on our unit tests
+
+            * Run one test: mvn test -Dtest=YourTestClassName
+            * Run one single method: mvn test -Dtest=YourTestClassName#yourMethodName
+            * Attach the debugger: docker-compose run --rm test-runner mvn test -Dmaven.surefire.debug -Dtest=YourTestClassName#yourMethodName
+            * Cleanup environment: docker-compose down --volumes --remove-orphans docker system prune -a
+            * Later: docker system prune -a
+
+#### Manual Approach (DEPRECATED)
         * mvn clean install
         * java -jar target/demo-0.0.1-SNAPSHOT.jar
         * Or use IntelliJ
