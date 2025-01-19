@@ -30,6 +30,7 @@ public class DayController {
     @GetMapping("/{id}")
     public ResponseEntity<Day> getDayById(@PathVariable String id) {
         Optional<Day> day = dayService.getDayById(id);
+
         if (day.isPresent()) {
             return ResponseEntity.ok(day.get());
         } else {
@@ -40,6 +41,7 @@ public class DayController {
     @GetMapping("/current")
     public ResponseEntity<Day> getCurrentDay() {
         Optional<Day> currentDay = dayService.getCurrentDayMeasures();
+
         if (currentDay.isPresent()) {
             return ResponseEntity.ok(currentDay.get());
         } else {
@@ -50,6 +52,7 @@ public class DayController {
     @GetMapping("/by-date")
     public ResponseEntity<Day> getDayByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         Optional<Day> day = dayService.getDayByDate(date);
+
         if (day.isPresent()) {
             return ResponseEntity.ok(day.get());
         } else {
@@ -57,6 +60,7 @@ public class DayController {
         }
     }
 
+    // Create, update, delete
     @PostMapping
     public Day createDay(@RequestBody Day day) {
         return dayService.createDay(day);
@@ -65,6 +69,7 @@ public class DayController {
     @PutMapping("/{id}")
     public Day updateDay(@PathVariable String id, @RequestBody Day day) {
         day.setId(id);
+
         return dayService.updateDay(day);
     }
 
