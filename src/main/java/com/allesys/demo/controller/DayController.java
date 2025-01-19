@@ -28,8 +28,13 @@ public class DayController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Day> getDayById(@PathVariable String id) {
-        return dayService.getDayById(id);
+    public ResponseEntity<Day> getDayById(@PathVariable String id) {
+        Optional<Day> day = dayService.getDayById(id);
+        if (day.isPresent()) {
+            return ResponseEntity.ok(day.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping("/current")

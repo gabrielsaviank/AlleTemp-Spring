@@ -1,4 +1,3 @@
-# Use a Maven image for running tests
 FROM maven:3.9.4-eclipse-temurin-17 AS test-runner
 WORKDIR /app
 
@@ -6,4 +5,4 @@ WORKDIR /app
 COPY . .
 
 # Run the tests
-CMD ["mvn", "test", "-Dmaven.surefire.debug", "-DargLine=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005"]
+CMD ["mvn", "test"]
