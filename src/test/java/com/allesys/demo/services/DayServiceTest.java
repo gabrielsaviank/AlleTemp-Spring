@@ -1,8 +1,11 @@
 package com.allesys.demo.services;
 
 import com.allesys.demo.entity.Day;
+import com.allesys.demo.entity.Temperature;
 import com.allesys.demo.repository.DayRepository;
+import com.allesys.demo.repository.TemperatureRepository;
 import com.allesys.demo.service.DayService;
+import com.allesys.demo.service.TemperatureService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,6 +25,9 @@ import static org.mockito.Mockito.*;
 public class DayServiceTest {
     @Mock
     private DayRepository dayRepository;
+
+    @Mock
+    private TemperatureService temperatureService;
 
     @InjectMocks
     private DayService dayService;
@@ -88,21 +94,37 @@ public class DayServiceTest {
     }
 
     @Test
-    void geDayByDate() throws Exception {
+    void getDayByDate() throws Exception {
         Day day = new Day();
+        day.setId("121416");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         Date date = sdf.parse("2024-11-02T10:00:00.000+00:00");
         day.setCreated(date);
 
-        DayRepository dayRepository = mock(DayRepository.class);
         when(dayRepository.findByCreated(date)).thenReturn(Optional.of(day));
 
-        DayService dayService = new DayService(dayRepository);
+        Temperature temp1 = new Temperature();
+        temp1.setDay(day);
+        temp1.setMeasure(22.5);
+
+        Temperature temp2 = new Temperature();
+        temp2.setDay(day);
+        temp2.setMeasure(18.0);
+
+        when(temperatureService.getTemperaturesByDayId(day.getId()))
+                .thenReturn(Arrays.asList(temp1, temp2));
 
         Optional<Day> result = dayService.getDayByDate(date);
 
         assertTrue(result.isPresent());
         assertEquals(date, result.get().getCreated());
+        assertNotNull(result.get().getTemperatures());
+        assertEquals(2, result.get().getTemperatures().size());
+        assertEquals(22.5, result.get().getTemperatures().get(0).getMeasure());
+        assertEquals(18.0, result.get().getTemperatures().get(1).getMeasure());
+
+        verify(dayRepository, times(1)).findByCreated(date);
+        verify(temperatureService, times(1)).getTemperaturesByDayId(day.getId());
     }
 
 

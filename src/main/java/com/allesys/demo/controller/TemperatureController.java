@@ -35,6 +35,7 @@ public class TemperatureController {
         return temperatureService.getLastDayTemperatures();
     }
 
+    // Create delete, update
     @PostMapping
     public ResponseEntity<Temperature> createMeasure(@RequestParam Double measure) {
         Temperature temperature = temperatureService.createMeasure(measure);
