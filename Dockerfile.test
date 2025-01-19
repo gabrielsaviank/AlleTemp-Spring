@@ -6,5 +6,4 @@ WORKDIR /app
 COPY . .
 
 # Run the tests
-CMD ["mvn", "test", "-Dmaven.surefire.debug"]
-
+CMD ["mvn", "test", "-Dmaven.surefire.debug", "-DargLine=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005"]
