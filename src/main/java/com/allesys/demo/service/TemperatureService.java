@@ -56,6 +56,10 @@ public class TemperatureService {
         return temperatureRepository.findById(temperatureId);
     }
 
+    public List<Temperature> getTemperaturesByDayId(String dayId) {
+        return temperatureRepository.findByDayId(dayId);
+    }
+
     public void deleteTemperature(String temperatureId){
         temperatureRepository.deleteById(temperatureId);
     }

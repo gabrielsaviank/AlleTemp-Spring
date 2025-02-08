@@ -1,7 +1,9 @@
 package com.allesys.demo.service;
 
 import com.allesys.demo.entity.Day;
+import com.allesys.demo.entity.Temperature;
 import com.allesys.demo.repository.DayRepository;
+import com.allesys.demo.repository.TemperatureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,12 @@ import java.util.Optional;
 @Service
 public class DayService {
     private final DayRepository dayRepository;
+    private final TemperatureService temperatureService;
 
     @Autowired
-    public DayService(DayRepository dayRepository) {
+    public DayService(DayRepository dayRepository, TemperatureService temperatureService) {
         this.dayRepository = dayRepository;
+        this.temperatureService = temperatureService;
     }
 
     public List<Day> getAllDays(){
@@ -31,7 +35,17 @@ public class DayService {
     }
 
     public Optional<Day> getDayByDate(Date day) {
-        return dayRepository.findByCreated(day);
+        Optional<Day> dayToFind = dayRepository.findByCreated(day);
+
+        if (dayToFind.isPresent()) {
+            Day selectedDay = dayToFind.get();
+
+            List<Temperature> temperatures = temperatureService.getTemperaturesByDayId(selectedDay.getId());
+
+            selectedDay.setTemperatures(temperatures);
+        }
+
+        return dayToFind;
     }
 
     public Day createDay(Day day) {
