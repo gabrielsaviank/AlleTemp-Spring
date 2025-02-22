@@ -11,10 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,9 +28,20 @@ public class TemperatureServiceTest {
     @InjectMocks
     private TemperatureService temperatureService;
 
+    private Date lastHourDate;
+    private Date twoHoursAgo;
+
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
+
+        ZoneId systemZone = ZoneId.systemDefault();
+        LocalDateTime nowLocal = LocalDateTime.now(systemZone);
+
+        lastHourDate = Date.from(nowLocal.minusHours(1).atZone(systemZone).toInstant());
+        twoHoursAgo = Date.from(nowLocal.minusHours(2).atZone(systemZone).toInstant());
+
+
     }
 
     @Test
@@ -85,5 +95,27 @@ public class TemperatureServiceTest {
         assertEquals(21.5, result.get(1));
 
         verify(temperatureRepository, times(1)).findByTimeAfterOrderByTimeDesc(any(Date.class));
+    }
+
+    @Test
+    void getLastHourTemperatures() {
+        Temperature tempOne = new Temperature();
+        tempOne.setMeasure(12.5);
+        tempOne.setTime(lastHourDate);
+
+        Temperature tempTwo = new Temperature();
+        tempTwo.setMeasure(20.0);
+        tempTwo.setTime(twoHoursAgo);
+
+        List<Temperature> result = Arrays.asList(tempOne, tempTwo);
+
+        when(temperatureRepository.findByTimeAfterOrderByTimeDesc(lastHourDate))
+                .thenReturn(Collections.singletonList(tempOne));
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(12.5, result.get(0));
+
+        verify(temperatureRepository, times(1)).findByTimeAfterOrderByTimeDesc(lastHourDate);
     }
 }

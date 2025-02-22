@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,6 +74,22 @@ public class TemperatureService {
 
         List<Double> result = new ArrayList<>();
         for (Temperature temp : recentTemperatures) {
+            result.add(temp.getMeasure());
+        }
+
+        return result;
+    }
+
+    public List<Double> getLastHourTemperatures() {
+        LocalDateTime lastHour = LocalDateTime.now().minusHours(1);
+
+        Date lastHourDate = Date.from(lastHour.atZone(ZoneId.systemDefault()).toInstant());
+
+        List<Temperature> lastHourTemperatures = temperatureRepository.findByTimeAfterOrderByTimeDesc(lastHourDate);
+
+        List<Double> result = new ArrayList<>();
+
+        for(Temperature temp : lastHourTemperatures) {
             result.add(temp.getMeasure());
         }
 
